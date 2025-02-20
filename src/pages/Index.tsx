@@ -1,14 +1,38 @@
-// Update this page (the content is just a fallback if you fail to update the page)
 
-const Index = () => {
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+const MainMenu = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <div className="min-h-screen bg-eink-white text-eink-black animate-fadeIn">
+      <div className="max-w-md mx-auto px-4 py-12">
+        <h1 className="text-2xl font-light text-center mb-12">GestHub</h1>
+        
+        <div className="space-y-6">
+          <Link 
+            to="/client-pickup"
+            className="block w-full p-6 bg-eink-lightGray hover:bg-eink-gray transition-colors duration-200 rounded-lg shadow-sm"
+          >
+            <span className="text-lg font-medium">Cliente Retira</span>
+          </Link>
+
+          <Link 
+            to="/schedule-collection"
+            className="block w-full p-6 bg-eink-lightGray hover:bg-eink-gray transition-colors duration-200 rounded-lg shadow-sm"
+          >
+            <span className="text-lg font-medium">Agendar Coleta</span>
+          </Link>
+
+          <Link 
+            to="/request-quote"
+            className="block w-full p-6 bg-eink-lightGray hover:bg-eink-gray transition-colors duration-200 rounded-lg shadow-sm"
+          >
+            <span className="text-lg font-medium">Cotação</span>
+          </Link>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Index;
+export default MainMenu;
