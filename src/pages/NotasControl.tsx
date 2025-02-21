@@ -16,10 +16,21 @@ const NotasControl = () => {
         const dataLimite = new Date(nota.dataEnvioMensagem);
         dataLimite.setDate(dataLimite.getDate() + 7);
         
-        if (nota.status !== 'cancelado' && hoje > dataLimite) {
-          return { ...nota, status: 'atrasado' as const };
+        const diasRestantes = Math.ceil((dataLimite.getTime() - hoje.getTime()) / (1000 * 60 * 60 * 24));
+        
+        let status: 'pendente' | 'atrasado' | 'alerta-verde' | 'alerta-amarelo' | 'alerta-vermelho' = 'pendente';
+        
+        if (hoje > dataLimite) {
+          status = 'atrasado';
+        } else if (diasRestantes <= 2) {
+          status = 'alerta-vermelho';
+        } else if (diasRestantes <= 5) {
+          status = 'alerta-amarelo';
+        } else if (diasRestantes <= 3) {
+          status = 'alerta-verde';
         }
-        return nota;
+        
+        return { ...nota, status };
       });
     };
 
@@ -32,6 +43,23 @@ const NotasControl = () => {
       month: '2-digit',
       year: 'numeric'
     });
+  };
+
+  const getCardStyle = (status: string) => {
+    const baseStyle = "relative w-full bg-eink-white rounded-lg transition-all duration-300";
+    
+    switch (status) {
+      case 'atrasado':
+        return `${baseStyle} border-2 border-[#C30010]`;
+      case 'alerta-vermelho':
+        return `${baseStyle} border border-eink-lightGray shadow-[0_35px_80px_rgba(195,0,16,0.15)]`;
+      case 'alerta-amarelo':
+        return `${baseStyle} border border-eink-lightGray shadow-[0_35px_80px_rgba(253,163,0,0.15)]`;
+      case 'alerta-verde':
+        return `${baseStyle} border border-eink-lightGray shadow-[0_35px_80px_rgba(0,148,64,0.15)]`;
+      default:
+        return `${baseStyle} border border-eink-lightGray shadow-sm hover:shadow-md`;
+    }
   };
 
   return (
@@ -50,9 +78,7 @@ const NotasControl = () => {
           {notasAtualizadas.map((nota, index) => (
             <div 
               key={index}
-              className={`relative w-full bg-eink-white rounded-lg shadow-sm transition-all duration-300 hover:shadow-md ${
-                nota.status === 'atrasado' ? 'border-2 border-red-500' : 'border border-eink-lightGray'
-              }`}
+              className={getCardStyle(nota.status)}
             >
               <div className="p-6">
                 <div className="space-y-4">
@@ -92,6 +118,12 @@ const NotasControl = () => {
                 {nota.status === 'atrasado' && (
                   <div className="mt-4 bg-red-50 text-red-600 p-3 rounded-md uppercase text-sm font-medium">
                     Prazo de retirada expirado
+                  </div>
+                )}
+                
+                {nota.status === 'alerta-vermelho' && (
+                  <div className="mt-4 bg-red-50 text-red-600 p-3 rounded-md uppercase text-sm font-medium">
+                    Atenção: 2 dias ou menos para expirar
                   </div>
                 )}
               </div>

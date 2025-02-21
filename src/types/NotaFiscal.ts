@@ -6,5 +6,5 @@ export interface NotaFiscal {
   dataEnvioMensagem: Date;
   contato: string;
   telefone: string;
-  status: 'pendente' | 'atrasado' | 'cancelado';
+  status: 'pendente' | 'atrasado' | 'alerta-verde' | 'alerta-amarelo' | 'alerta-vermelho';
 }
