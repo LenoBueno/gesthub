@@ -3,11 +3,15 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import type { NotaFiscal } from "../types/NotaFiscal";
+import { Calendar, Filter, Download, Search } from 'lucide-react';
 
 const NotasControl = () => {
   const navigate = useNavigate();
   const [notas] = useLocalStorage<NotaFiscal[]>("notas-fiscais", []);
   const [notasAtualizadas, setNotasAtualizadas] = useState<NotaFiscal[]>([]);
+  const [filtroStatus, setFiltroStatus] = useState<string>('todos');
+  const [busca, setBusca] = useState('');
+  const [ordenacao, setOrdenacao] = useState<'asc' | 'desc'>('asc');
 
   useEffect(() => {
     const atualizarStatus = () => {
@@ -34,7 +38,6 @@ const NotasControl = () => {
       });
     };
 
-    // Atualiza o status a cada minuto
     setNotasAtualizadas(atualizarStatus());
     const interval = setInterval(() => {
       setNotasAtualizadas(atualizarStatus());
@@ -51,21 +54,31 @@ const NotasControl = () => {
     });
   };
 
-  const getCardStyle = (status: string) => {
-    const baseStyle = "relative w-full bg-eink-white rounded-lg transition-all duration-300";
-    
-    switch (status) {
-      case 'atrasado':
-        return `${baseStyle} border-2 border-[#C30010]`;
-      case 'alerta-vermelho':
-        return `${baseStyle} border border-eink-lightGray shadow-[0_35px_80px_rgba(195,0,16,0.15)]`;
-      case 'alerta-amarelo':
-        return `${baseStyle} border border-eink-lightGray shadow-[0_35px_80px_rgba(253,163,0,0.15)]`;
-      case 'alerta-verde':
-        return `${baseStyle} border border-eink-lightGray shadow-[0_35px_80px_rgba(0,148,64,0.15)]`;
-      default:
-        return `${baseStyle} border border-eink-lightGray shadow-sm hover:shadow-md`;
+  const filtrarNotas = () => {
+    let notasFiltradas = [...notasAtualizadas];
+
+    // Filtro por status
+    if (filtroStatus !== 'todos') {
+      notasFiltradas = notasFiltradas.filter(nota => nota.status === filtroStatus);
     }
+
+    // Filtro por busca
+    if (busca) {
+      const termoBusca = busca.toLowerCase();
+      notasFiltradas = notasFiltradas.filter(nota => 
+        nota.razaoSocial.toLowerCase().includes(termoBusca) ||
+        nota.numeroNota.toLowerCase().includes(termoBusca)
+      );
+    }
+
+    // Ordenação por data
+    notasFiltradas.sort((a, b) => {
+      const dataA = new Date(a.dataEnvioMensagem).getTime();
+      const dataB = new Date(b.dataEnvioMensagem).getTime();
+      return ordenacao === 'asc' ? dataA - dataB : dataB - dataA;
+    });
+
+    return notasFiltradas;
   };
 
   const getStatusMessage = (status: string) => {
@@ -107,13 +120,60 @@ const NotasControl = () => {
           ← VOLTAR
         </button>
 
-        <h1 className="text-2xl font-light text-center mb-8 uppercase">Controle de Notas</h1>
+        <div className="flex flex-col md:flex-row justify-between items-center mb-8">
+          <h1 className="text-2xl font-light uppercase mb-4 md:mb-0">Controle de Notas</h1>
+          
+          <div className="flex flex-wrap gap-4 items-center">
+            {/* Barra de busca */}
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-eink-gray w-4 h-4" />
+              <input
+                type="text"
+                placeholder="Buscar nota fiscal..."
+                value={busca}
+                onChange={(e) => setBusca(e.target.value)}
+                className="pl-10 pr-4 py-2 border border-eink-lightGray rounded-lg focus:outline-none focus:border-eink-gray"
+              />
+            </div>
+
+            {/* Filtro de status */}
+            <select
+              value={filtroStatus}
+              onChange={(e) => setFiltroStatus(e.target.value)}
+              className="px-4 py-2 border border-eink-lightGray rounded-lg focus:outline-none focus:border-eink-gray"
+            >
+              <option value="todos">Todos os status</option>
+              <option value="atrasado">Atrasados</option>
+              <option value="alerta-vermelho">Próximo ao vencimento</option>
+              <option value="alerta-amarelo">Em andamento</option>
+              <option value="alerta-verde">Prazo confortável</option>
+            </select>
+
+            {/* Ordenação */}
+            <button
+              onClick={() => setOrdenacao(prev => prev === 'asc' ? 'desc' : 'asc')}
+              className="flex items-center gap-2 px-4 py-2 border border-eink-lightGray rounded-lg hover:bg-eink-lightGray/10"
+            >
+              <Calendar className="w-4 h-4" />
+              {ordenacao === 'asc' ? 'Mais antigos' : 'Mais recentes'}
+            </button>
+
+            {/* Exportar */}
+            <button
+              onClick={() => window.print()}
+              className="flex items-center gap-2 px-4 py-2 border border-eink-lightGray rounded-lg hover:bg-eink-lightGray/10"
+            >
+              <Download className="w-4 h-4" />
+              Exportar
+            </button>
+          </div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {notasAtualizadas.map((nota, index) => (
+          {filtrarNotas().map((nota, index) => (
             <div 
               key={index}
-              className={getCardStyle(nota.status)}
+              className="relative w-full bg-eink-white rounded-lg border border-eink-lightGray shadow-[0_10px_40px_-15px_rgba(0,0,0,0.2)] transition-all duration-300 hover:shadow-[0_10px_40px_-12px_rgba(0,0,0,0.3)]"
             >
               <div className="p-6">
                 <div className="space-y-4">
@@ -160,9 +220,9 @@ const NotasControl = () => {
           ))}
         </div>
 
-        {notasAtualizadas.length === 0 && (
+        {filtrarNotas().length === 0 && (
           <div className="text-center text-eink-gray uppercase mt-8">
-            Nenhuma nota registrada
+            Nenhuma nota encontrada
           </div>
         )}
       </div>
