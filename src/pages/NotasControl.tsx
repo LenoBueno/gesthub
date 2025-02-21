@@ -24,9 +24,9 @@ const NotasControl = () => {
           status = 'atrasado';
         } else if (diasRestantes <= 2) {
           status = 'alerta-vermelho';
-        } else if (diasRestantes <= 5) {
+        } else if (diasRestantes <= 4) {
           status = 'alerta-amarelo';
-        } else if (diasRestantes <= 3) {
+        } else if (diasRestantes <= 7) {
           status = 'alerta-verde';
         }
         
@@ -34,7 +34,13 @@ const NotasControl = () => {
       });
     };
 
+    // Atualiza o status a cada minuto
     setNotasAtualizadas(atualizarStatus());
+    const interval = setInterval(() => {
+      setNotasAtualizadas(atualizarStatus());
+    }, 60000);
+
+    return () => clearInterval(interval);
   }, [notas]);
 
   const formatarData = (data: Date) => {
@@ -59,6 +65,35 @@ const NotasControl = () => {
         return `${baseStyle} border border-eink-lightGray shadow-[0_35px_80px_rgba(0,148,64,0.15)]`;
       default:
         return `${baseStyle} border border-eink-lightGray shadow-sm hover:shadow-md`;
+    }
+  };
+
+  const getStatusMessage = (status: string) => {
+    switch (status) {
+      case 'atrasado':
+        return 'Prazo de retirada expirado';
+      case 'alerta-vermelho':
+        return 'Atenção: 2 dias ou menos para expirar';
+      case 'alerta-amarelo':
+        return 'Atenção: 3-4 dias para expirar';
+      case 'alerta-verde':
+        return 'Em andamento: 5-7 dias restantes';
+      default:
+        return '';
+    }
+  };
+
+  const getStatusStyle = (status: string) => {
+    switch (status) {
+      case 'atrasado':
+      case 'alerta-vermelho':
+        return 'bg-red-50 text-red-600';
+      case 'alerta-amarelo':
+        return 'bg-yellow-50 text-yellow-600';
+      case 'alerta-verde':
+        return 'bg-green-50 text-green-600';
+      default:
+        return '';
     }
   };
 
@@ -115,15 +150,9 @@ const NotasControl = () => {
                   </div>
                 </div>
 
-                {nota.status === 'atrasado' && (
-                  <div className="mt-4 bg-red-50 text-red-600 p-3 rounded-md uppercase text-sm font-medium">
-                    Prazo de retirada expirado
-                  </div>
-                )}
-                
-                {nota.status === 'alerta-vermelho' && (
-                  <div className="mt-4 bg-red-50 text-red-600 p-3 rounded-md uppercase text-sm font-medium">
-                    Atenção: 2 dias ou menos para expirar
+                {nota.status !== 'pendente' && (
+                  <div className={`mt-4 p-3 rounded-md uppercase text-sm font-medium ${getStatusStyle(nota.status)}`}>
+                    {getStatusMessage(nota.status)}
                   </div>
                 )}
               </div>
