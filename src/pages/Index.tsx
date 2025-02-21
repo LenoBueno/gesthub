@@ -29,6 +29,13 @@ const MainMenu = () => {
           >
             <span className="text-lg font-medium uppercase">Cotação</span>
           </Link>
+
+          <Link 
+            to="/notas-control"
+            className="block w-full p-6 bg-eink-lightGray hover:bg-eink-gray transition-colors duration-200 rounded-lg shadow-sm"
+          >
+            <span className="text-lg font-medium uppercase">Controle Notas</span>
+          </Link>
         </div>
       </div>
     </div>

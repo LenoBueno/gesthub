@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import ClientPickup from "./pages/ClientPickup";
 import ScheduleCollection from "./pages/ScheduleCollection";
 import RequestQuote from "./pages/RequestQuote";
+import NotasControl from "./pages/NotasControl";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/client-pickup" element={<ClientPickup />} />
           <Route path="/schedule-collection" element={<ScheduleCollection />} />
           <Route path="/request-quote" element={<RequestQuote />} />
+          <Route path="/notas-control" element={<NotasControl />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
