@@ -1,5 +1,6 @@
 
 import axios from 'axios';
+import type { NotaFiscal } from "../types/NotaFiscal";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000'
@@ -7,17 +8,17 @@ const api = axios.create({
 
 export const NotasService = {
   async getAll() {
-    const response = await api.get('/notas');
+    const response = await api.get<NotaFiscal[]>('/notas');
     return response.data;
   },
 
-  async create(nota: any) {
-    const response = await api.post('/notas', nota);
+  async create(nota: NotaFiscal) {
+    const response = await api.post<NotaFiscal>('/notas', nota);
     return response.data;
   },
 
-  async update(id: string, nota: any) {
-    const response = await api.put(`/notas/${id}`, nota);
+  async update(id: string, nota: NotaFiscal) {
+    const response = await api.put<NotaFiscal>(`/notas/${id}`, nota);
     return response.data;
   },
 
