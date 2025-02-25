@@ -2,6 +2,7 @@
 const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
@@ -15,29 +16,47 @@ const pool = mysql.createPool({
   database: process.env.DB_NAME,
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0
+  queueLimit: 0,
+  charset: 'utf8mb4'
 });
 
-// Criar tabela se não existir
-pool.query(`
-  CREATE TABLE IF NOT EXISTS notas_fiscais (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    razaoSocial VARCHAR(255) NOT NULL,
-    numeroNota VARCHAR(50) NOT NULL,
-    dataEmissao DATETIME NOT NULL,
-    dataEnvioMensagem DATETIME NOT NULL,
-    contato VARCHAR(255) NOT NULL,
-    telefone VARCHAR(20) NOT NULL,
-    status VARCHAR(20) NOT NULL
-  )
-`);
+// Criar banco de dados se não existir
+pool.query(`CREATE DATABASE IF NOT EXISTS ${process.env.DB_NAME} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`, (err) => {
+  if (err) {
+    console.error('Erro ao criar banco de dados:', err);
+    return;
+  }
+
+  // Criar tabela se não existir
+  pool.query(`
+    CREATE TABLE IF NOT EXISTS notas_fiscais (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      razaoSocial VARCHAR(255) NOT NULL,
+      numeroNota VARCHAR(50) NOT NULL,
+      dataEmissao DATETIME NOT NULL,
+      dataEnvioMensagem DATETIME NOT NULL,
+      contato VARCHAR(255) NOT NULL,
+      telefone VARCHAR(20) NOT NULL,
+      status VARCHAR(20) NOT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+  `, (err) => {
+    if (err) {
+      console.error('Erro ao criar tabela:', err);
+      return;
+    }
+    console.log('Banco de dados e tabela verificados com sucesso!');
+  });
+});
 
 // Rotas
 app.get('/notas', async (req, res) => {
   try {
-    const [rows] = await pool.promise().query('SELECT * FROM notas_fiscais');
+    const [rows] = await pool.promise().query('SELECT * FROM notas_fiscais ORDER BY created_at DESC');
     res.json(rows);
   } catch (error) {
+    console.error('Erro ao buscar notas:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -50,6 +69,7 @@ app.post('/notas', async (req, res) => {
     );
     res.json({ id: result.insertId, ...req.body });
   } catch (error) {
+    console.error('Erro ao criar nota:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -62,6 +82,7 @@ app.put('/notas/:id', async (req, res) => {
     );
     res.json({ id: req.params.id, ...req.body });
   } catch (error) {
+    console.error('Erro ao atualizar nota:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -74,6 +95,7 @@ app.delete('/notas/:id', async (req, res) => {
     );
     res.json({ message: 'Nota fiscal deletada com sucesso' });
   } catch (error) {
+    console.error('Erro ao deletar nota:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -81,4 +103,5 @@ app.delete('/notas/:id', async (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
+  console.log(`Banco de dados configurado em: ${process.env.DB_DATA_DIR}`);
 });
