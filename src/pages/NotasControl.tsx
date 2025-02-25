@@ -3,7 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import type { NotaFiscal } from "../types/NotaFiscal";
-import { Calendar, Filter, Download, Search } from 'lucide-react';
+import { Download } from 'lucide-react';
+import { NotasFilters } from '../components/notas/NotasFilters';
+import { NotaFiscalCard } from '../components/notas/NotaFiscalCard';
+import { formatarData, getStatusMessage, getStatusStyle } from '../utils/notasUtils';
 
 const NotasControl = () => {
   const navigate = useNavigate();
@@ -46,23 +49,13 @@ const NotasControl = () => {
     return () => clearInterval(interval);
   }, [notas]);
 
-  const formatarData = (data: Date) => {
-    return new Date(data).toLocaleDateString('pt-BR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    });
-  };
-
   const filtrarNotas = () => {
     let notasFiltradas = [...notasAtualizadas];
 
-    // Filtro por status
     if (filtroStatus !== 'todos') {
       notasFiltradas = notasFiltradas.filter(nota => nota.status === filtroStatus);
     }
 
-    // Filtro por busca
     if (busca) {
       const termoBusca = busca.toLowerCase();
       notasFiltradas = notasFiltradas.filter(nota => 
@@ -71,7 +64,6 @@ const NotasControl = () => {
       );
     }
 
-    // Ordenação por data
     notasFiltradas.sort((a, b) => {
       const dataA = new Date(a.dataEnvioMensagem).getTime();
       const dataB = new Date(b.dataEnvioMensagem).getTime();
@@ -79,35 +71,6 @@ const NotasControl = () => {
     });
 
     return notasFiltradas;
-  };
-
-  const getStatusMessage = (status: string) => {
-    switch (status) {
-      case 'atrasado':
-        return 'Prazo de retirada expirado';
-      case 'alerta-vermelho':
-        return 'Atenção: 2 dias ou menos para expirar';
-      case 'alerta-amarelo':
-        return 'Atenção: 3-4 dias para expirar';
-      case 'alerta-verde':
-        return 'Em andamento: 5-7 dias restantes';
-      default:
-        return '';
-    }
-  };
-
-  const getStatusStyle = (status: string) => {
-    switch (status) {
-      case 'atrasado':
-      case 'alerta-vermelho':
-        return 'bg-red-50 text-red-600';
-      case 'alerta-amarelo':
-        return 'bg-yellow-50 text-yellow-600';
-      case 'alerta-verde':
-        return 'bg-green-50 text-green-600';
-      default:
-        return '';
-    }
   };
 
   return (
@@ -124,41 +87,15 @@ const NotasControl = () => {
           <h1 className="text-2xl font-light uppercase mb-4 md:mb-0">Controle de Notas</h1>
           
           <div className="flex flex-wrap gap-4 items-center">
-            {/* Barra de busca */}
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-eink-gray w-4 h-4" />
-              <input
-                type="text"
-                placeholder="Buscar nota fiscal..."
-                value={busca}
-                onChange={(e) => setBusca(e.target.value)}
-                className="pl-10 pr-4 py-2 border border-eink-lightGray rounded-lg focus:outline-none focus:border-eink-gray"
-              />
-            </div>
+            <NotasFilters
+              busca={busca}
+              setBusca={setBusca}
+              filtroStatus={filtroStatus}
+              setFiltroStatus={setFiltroStatus}
+              ordenacao={ordenacao}
+              setOrdenacao={setOrdenacao}
+            />
 
-            {/* Filtro de status */}
-            <select
-              value={filtroStatus}
-              onChange={(e) => setFiltroStatus(e.target.value)}
-              className="px-4 py-2 border border-eink-lightGray rounded-lg focus:outline-none focus:border-eink-gray"
-            >
-              <option value="todos">Todos os status</option>
-              <option value="atrasado">Atrasados</option>
-              <option value="alerta-vermelho">Próximo ao vencimento</option>
-              <option value="alerta-amarelo">Em andamento</option>
-              <option value="alerta-verde">Prazo confortável</option>
-            </select>
-
-            {/* Ordenação */}
-            <button
-              onClick={() => setOrdenacao(prev => prev === 'asc' ? 'desc' : 'asc')}
-              className="flex items-center gap-2 px-4 py-2 border border-eink-lightGray rounded-lg hover:bg-eink-lightGray/10"
-            >
-              <Calendar className="w-4 h-4" />
-              {ordenacao === 'asc' ? 'Mais antigos' : 'Mais recentes'}
-            </button>
-
-            {/* Exportar */}
             <button
               onClick={() => window.print()}
               className="flex items-center gap-2 px-4 py-2 border border-eink-lightGray rounded-lg hover:bg-eink-lightGray/10"
@@ -171,52 +108,13 @@ const NotasControl = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filtrarNotas().map((nota, index) => (
-            <div 
+            <NotaFiscalCard
               key={index}
-              className="relative w-full bg-eink-white rounded-lg border border-eink-lightGray shadow-[0_10px_40px_-15px_rgba(0,0,0,0.2)] transition-all duration-300 hover:shadow-[0_10px_40px_-12px_rgba(0,0,0,0.3)]"
-            >
-              <div className="p-6">
-                <div className="space-y-4">
-                  <div>
-                    <p className="text-eink-gray text-sm uppercase">Razão Social</p>
-                    <p className="font-medium text-lg uppercase truncate">{nota.razaoSocial}</p>
-                  </div>
-                  
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <p className="text-eink-gray text-sm uppercase">Nota Fiscal</p>
-                      <p className="font-medium uppercase">{nota.numeroNota}</p>
-                    </div>
-                    <div>
-                      <p className="text-eink-gray text-sm uppercase">Emissão</p>
-                      <p className="font-medium">{formatarData(nota.dataEmissao)}</p>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <p className="text-eink-gray text-sm uppercase">Contato</p>
-                      <p className="font-medium uppercase truncate">{nota.contato}</p>
-                    </div>
-                    <div>
-                      <p className="text-eink-gray text-sm uppercase">Telefone</p>
-                      <p className="font-medium">{nota.telefone}</p>
-                    </div>
-                  </div>
-
-                  <div>
-                    <p className="text-eink-gray text-sm uppercase">Mensagem Enviada</p>
-                    <p className="font-medium">{formatarData(nota.dataEnvioMensagem)}</p>
-                  </div>
-                </div>
-
-                {nota.status !== 'pendente' && (
-                  <div className={`mt-4 p-3 rounded-md uppercase text-sm font-medium ${getStatusStyle(nota.status)}`}>
-                    {getStatusMessage(nota.status)}
-                  </div>
-                )}
-              </div>
-            </div>
+              nota={nota}
+              formatarData={formatarData}
+              getStatusMessage={getStatusMessage}
+              getStatusStyle={getStatusStyle}
+            />
           ))}
         </div>
 
