@@ -7,4 +7,6 @@ export interface NotaFiscal {
   contato: string;
   telefone: string;
   status: 'pendente' | 'atrasado' | 'alerta-verde' | 'alerta-amarelo' | 'alerta-vermelho';
+  created_at?: Date;
+  updated_at?: Date;
 }
