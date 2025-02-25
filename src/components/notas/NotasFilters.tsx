@@ -45,7 +45,7 @@ export const NotasFilters: React.FC<NotasFiltersProps> = ({
       </select>
 
       <button
-        onClick={() => setOrdenacao(prev => prev === 'asc' ? 'desc' : 'asc')}
+        onClick={() => setOrdenacao(ordenacao === 'asc' ? 'desc' : 'asc')}
         className="flex items-center gap-2 px-4 py-2 border border-eink-lightGray rounded-lg hover:bg-eink-lightGray/10"
       >
         <Calendar className="w-4 h-4" />
