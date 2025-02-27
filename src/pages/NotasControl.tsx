@@ -76,18 +76,18 @@ const NotasControl = () => {
   return (
     <div className="min-h-screen flex flex-col justify-between bg-eink-white text-eink-black animate-fadeIn">
       <div className="flex-grow">
-        <div className="w-full max-w-6xl mx-auto px-4 py-6 md:py-12">
+        <div className="w-full max-w-6xl mx-auto px-3 py-6 md:py-12">
           <button 
             onClick={() => navigate('/')}
-            className="mb-6 md:mb-8 text-eink-gray hover:text-eink-black uppercase text-sm"
+            className="mb-6 md:mb-8 text-eink-gray hover:text-eink-black uppercase text-xs md:text-sm"
           >
             ← VOLTAR
           </button>
 
           <div className="flex flex-col gap-4 mb-6">
-            <h1 className="text-xl md:text-2xl font-light uppercase">Controle de Notas</h1>
+            <h1 className="text-lg md:text-2xl font-light uppercase">Controle de Notas</h1>
             
-            <div className="flex flex-col w-full gap-4">
+            <div className="flex flex-col w-full gap-3">
               <NotasFilters
                 busca={busca}
                 setBusca={setBusca}
@@ -99,15 +99,15 @@ const NotasControl = () => {
 
               <button
                 onClick={() => window.print()}
-                className="w-full sm:w-auto self-end flex items-center justify-center gap-2 px-4 py-2 border border-eink-lightGray rounded-lg hover:bg-eink-lightGray/10"
+                className="w-full sm:w-auto self-end flex items-center justify-center gap-2 px-3 py-2 border border-eink-lightGray rounded-lg hover:bg-eink-lightGray/10 text-xs md:text-sm"
               >
-                <Download className="w-4 h-4" />
+                <Download className="w-3 h-3 md:w-4 md:h-4" />
                 Exportar
               </button>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {filtrarNotas().map((nota, index) => (
               <NotaFiscalCard
                 key={index}
@@ -120,15 +120,15 @@ const NotasControl = () => {
           </div>
 
           {filtrarNotas().length === 0 && (
-            <div className="text-center text-eink-gray uppercase mt-6 text-sm">
+            <div className="text-center text-eink-gray uppercase mt-6 text-xs md:text-sm">
               Nenhuma nota encontrada
             </div>
           )}
         </div>
       </div>
       
-      <footer className="w-full py-4 text-xs text-eink-gray text-center">
-        © 2025 - desenvolvido por 2103 creative - Desde 2024
+      <footer className="w-full py-3 text-xs text-eink-gray text-center uppercase">
+        © 2025 - DESENVOLVIDO POR 2103 CREATIVE - DESDE 2024
       </footer>
     </div>
   );

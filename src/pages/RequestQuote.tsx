@@ -51,21 +51,21 @@ const RequestQuote = () => {
   return (
     <div className="min-h-screen flex flex-col justify-between bg-eink-white text-eink-black animate-fadeIn">
       <div className="flex-grow">
-        <div className="max-w-[85%] mx-auto px-4 py-6 md:py-12">
+        <div className="max-w-[80%] mx-auto px-3 py-6 md:py-12">
           <button 
             onClick={() => navigate('/')}
-            className="mb-6 md:mb-8 text-eink-gray hover:text-eink-black text-sm"
+            className="mb-6 md:mb-8 text-eink-gray hover:text-eink-black text-xs md:text-sm"
           >
             ← Voltar
           </button>
 
-          <h1 className="text-xl md:text-2xl font-light text-center mb-6">Solicitar Cotação</h1>
+          <h1 className="text-lg md:text-2xl font-light text-center mb-6">Solicitar Cotação</h1>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-3">
             <select
               value={selectedContact}
               onChange={(e) => setSelectedContact(e.target.value)}
-              className="w-full p-3 bg-eink-lightGray rounded-lg outline-none text-sm"
+              className="w-full p-2.5 bg-eink-lightGray rounded-lg outline-none text-xs md:text-sm"
             >
               {Object.keys(CONTACTS).map((contact) => (
                 <option key={contact} value={contact}>
@@ -74,34 +74,34 @@ const RequestQuote = () => {
               ))}
             </select>
 
-            <div className="space-y-3">
+            <div className="space-y-2.5">
               {[
                 { key: 'stretchFilm', label: 'FILME STRETCH' },
                 { key: 'bubbleWrap', label: 'PLÁSTICO BOLHA' },
                 { key: 'kraftPaper', label: 'BOBINA PAPEL KRAFT' },
                 { key: 'corrugatedPaper', label: 'BOBINA PAPEL ONDULADO' }
               ].map((item) => (
-                <label key={item.key} className="flex items-center space-x-3 p-3 bg-eink-lightGray rounded-lg cursor-pointer">
+                <label key={item.key} className="flex items-center space-x-3 p-2.5 bg-eink-lightGray rounded-lg cursor-pointer">
                   <input
                     type="checkbox"
                     checked={materials[item.key as keyof typeof materials]}
                     onChange={(e) => setMaterials({...materials, [item.key]: e.target.checked})}
                     className="form-checkbox h-4 w-4 text-eink-black rounded border-eink-gray"
                   />
-                  <span className="text-sm">{item.label}</span>
+                  <span className="text-xs md:text-sm">{item.label}</span>
                 </label>
               ))}
             </div>
 
             {status && (
-              <div className="text-center text-eink-gray text-sm">
+              <div className="text-center text-eink-gray text-xs md:text-sm">
                 {status}
               </div>
             )}
 
             <button
               type="submit"
-              className="w-full p-3 bg-eink-black text-eink-white rounded-lg hover:bg-eink-darkGray transition-colors duration-200 text-sm"
+              className="w-full p-2.5 bg-eink-black text-eink-white rounded-lg hover:bg-eink-darkGray transition-colors duration-200 text-xs md:text-sm"
             >
               Enviar
             </button>
@@ -109,8 +109,8 @@ const RequestQuote = () => {
         </div>
       </div>
       
-      <footer className="w-full py-4 text-xs text-eink-gray text-center">
-        © 2025 - desenvolvido por 2103 creative - Desde 2024
+      <footer className="w-full py-3 text-xs text-eink-gray text-center uppercase">
+        © 2025 - DESENVOLVIDO POR 2103 CREATIVE - DESDE 2024
       </footer>
     </div>
   );

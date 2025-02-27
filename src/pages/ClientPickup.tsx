@@ -62,24 +62,24 @@ const ClientPickup = () => {
   return (
     <div className="min-h-screen flex flex-col justify-between bg-eink-white text-eink-black animate-fadeIn">
       <div className="flex-grow">
-        <div className="max-w-[85%] mx-auto px-4 py-6 md:py-12">
+        <div className="max-w-[80%] mx-auto px-3 py-6 md:py-12">
           <button 
             onClick={() => navigate('/')}
-            className="mb-6 md:mb-8 text-eink-gray hover:text-eink-black text-sm uppercase"
+            className="mb-6 md:mb-8 text-eink-gray hover:text-eink-black text-xs md:text-sm uppercase"
           >
             ← VOLTAR
           </button>
 
-          <h1 className="text-xl md:text-2xl font-light text-center mb-6 uppercase">Cliente Retira</h1>
+          <h1 className="text-lg md:text-2xl font-light text-center mb-6 uppercase">Cliente Retira</h1>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-3">
             <div>
               <input
                 type="text"
                 placeholder="RAZÃO SOCIAL"
                 value={formData.razaoSocial}
                 onChange={(e) => setFormData({...formData, razaoSocial: e.target.value})}
-                className="w-full p-3 bg-eink-lightGray rounded-lg outline-none text-sm uppercase"
+                className="w-full p-2.5 bg-eink-lightGray rounded-lg outline-none text-xs md:text-sm uppercase"
               />
             </div>
 
@@ -89,7 +89,7 @@ const ClientPickup = () => {
                 placeholder="WHATSAPP (COM DDD)"
                 value={formData.whatsapp}
                 onChange={(e) => setFormData({...formData, whatsapp: e.target.value})}
-                className="w-full p-3 bg-eink-lightGray rounded-lg outline-none text-sm uppercase"
+                className="w-full p-2.5 bg-eink-lightGray rounded-lg outline-none text-xs md:text-sm uppercase"
               />
             </div>
 
@@ -99,7 +99,7 @@ const ClientPickup = () => {
                 placeholder="CONTATO"
                 value={formData.contato}
                 onChange={(e) => setFormData({...formData, contato: e.target.value})}
-                className="w-full p-3 bg-eink-lightGray rounded-lg outline-none text-sm uppercase"
+                className="w-full p-2.5 bg-eink-lightGray rounded-lg outline-none text-xs md:text-sm uppercase"
               />
             </div>
 
@@ -109,19 +109,19 @@ const ClientPickup = () => {
                 placeholder="NOTA FISCAL"
                 value={formData.invoice}
                 onChange={(e) => setFormData({...formData, invoice: e.target.value})}
-                className="w-full p-3 bg-eink-lightGray rounded-lg outline-none text-sm uppercase"
+                className="w-full p-2.5 bg-eink-lightGray rounded-lg outline-none text-xs md:text-sm uppercase"
               />
             </div>
 
             {status && (
-              <div className="text-center text-eink-gray text-sm uppercase">
+              <div className="text-center text-eink-gray text-xs md:text-sm uppercase">
                 {status}
               </div>
             )}
 
             <button
               type="submit"
-              className="w-full p-3 bg-eink-black text-eink-white rounded-lg hover:bg-eink-darkGray transition-colors duration-200 text-sm uppercase"
+              className="w-full p-2.5 bg-eink-black text-eink-white rounded-lg hover:bg-eink-darkGray transition-colors duration-200 text-xs md:text-sm uppercase"
             >
               ENVIAR
             </button>
@@ -129,8 +129,8 @@ const ClientPickup = () => {
         </div>
       </div>
       
-      <footer className="w-full py-4 text-xs text-eink-gray text-center">
-        © 2025 - desenvolvido por 2103 creative - Desde 2024
+      <footer className="w-full py-3 text-xs text-eink-gray text-center uppercase">
+        © 2025 - DESENVOLVIDO POR 2103 CREATIVE - DESDE 2024
       </footer>
     </div>
   );
