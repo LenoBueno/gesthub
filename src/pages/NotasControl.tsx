@@ -74,56 +74,62 @@ const NotasControl = () => {
   };
 
   return (
-    <div className="min-h-screen bg-eink-white text-eink-black animate-fadeIn">
-      <div className="w-full max-w-6xl mx-auto px-4 py-6 md:py-12">
-        <button 
-          onClick={() => navigate('/')}
-          className="mb-6 md:mb-8 text-eink-gray hover:text-eink-black uppercase text-sm md:text-base"
-        >
-          ← VOLTAR
-        </button>
+    <div className="min-h-screen flex flex-col justify-between bg-eink-white text-eink-black animate-fadeIn">
+      <div className="flex-grow">
+        <div className="w-full max-w-6xl mx-auto px-4 py-6 md:py-12">
+          <button 
+            onClick={() => navigate('/')}
+            className="mb-6 md:mb-8 text-eink-gray hover:text-eink-black uppercase text-sm"
+          >
+            ← VOLTAR
+          </button>
 
-        <div className="flex flex-col gap-4 mb-6 md:mb-8">
-          <h1 className="text-xl md:text-2xl font-light uppercase">Controle de Notas</h1>
-          
-          <div className="flex flex-col w-full gap-4">
-            <NotasFilters
-              busca={busca}
-              setBusca={setBusca}
-              filtroStatus={filtroStatus}
-              setFiltroStatus={setFiltroStatus}
-              ordenacao={ordenacao}
-              setOrdenacao={setOrdenacao}
-            />
+          <div className="flex flex-col gap-4 mb-6">
+            <h1 className="text-xl md:text-2xl font-light uppercase">Controle de Notas</h1>
+            
+            <div className="flex flex-col w-full gap-4">
+              <NotasFilters
+                busca={busca}
+                setBusca={setBusca}
+                filtroStatus={filtroStatus}
+                setFiltroStatus={setFiltroStatus}
+                ordenacao={ordenacao}
+                setOrdenacao={setOrdenacao}
+              />
 
-            <button
-              onClick={() => window.print()}
-              className="w-full sm:w-auto self-end flex items-center justify-center gap-2 px-4 py-2 border border-eink-lightGray rounded-lg hover:bg-eink-lightGray/10"
-            >
-              <Download className="w-4 h-4" />
-              Exportar
-            </button>
+              <button
+                onClick={() => window.print()}
+                className="w-full sm:w-auto self-end flex items-center justify-center gap-2 px-4 py-2 border border-eink-lightGray rounded-lg hover:bg-eink-lightGray/10"
+              >
+                <Download className="w-4 h-4" />
+                Exportar
+              </button>
+            </div>
           </div>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-          {filtrarNotas().map((nota, index) => (
-            <NotaFiscalCard
-              key={index}
-              nota={nota}
-              formatarData={formatarData}
-              getStatusMessage={getStatusMessage}
-              getStatusStyle={getStatusStyle}
-            />
-          ))}
-        </div>
-
-        {filtrarNotas().length === 0 && (
-          <div className="text-center text-eink-gray uppercase mt-6 md:mt-8 text-sm md:text-base">
-            Nenhuma nota encontrada
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filtrarNotas().map((nota, index) => (
+              <NotaFiscalCard
+                key={index}
+                nota={nota}
+                formatarData={formatarData}
+                getStatusMessage={getStatusMessage}
+                getStatusStyle={getStatusStyle}
+              />
+            ))}
           </div>
-        )}
+
+          {filtrarNotas().length === 0 && (
+            <div className="text-center text-eink-gray uppercase mt-6 text-sm">
+              Nenhuma nota encontrada
+            </div>
+          )}
+        </div>
       </div>
+      
+      <footer className="w-full py-4 text-xs text-eink-gray text-center">
+        © 2025 - desenvolvido por 2103 creative - Desde 2024
+      </footer>
     </div>
   );
 };

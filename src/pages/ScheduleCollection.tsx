@@ -40,51 +40,57 @@ const ScheduleCollection = () => {
   };
 
   return (
-    <div className="min-h-screen bg-eink-white text-eink-black animate-fadeIn">
-      <div className="max-w-md mx-auto px-4 py-6 md:py-12">
-        <button 
-          onClick={() => navigate('/')}
-          className="mb-6 md:mb-8 text-eink-gray hover:text-eink-black text-sm md:text-base"
-        >
-          ← Voltar
-        </button>
-
-        <h1 className="text-xl md:text-2xl font-light text-center mb-6 md:mb-8">Agendar Coleta</h1>
-
-        <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
-          {[
-            { key: 'whatsapp', placeholder: 'WhatsApp (com DDD)', type: 'tel' },
-            { key: 'name', placeholder: 'Nome do Cliente', type: 'text' },
-            { key: 'city', placeholder: 'Cidade Destino', type: 'text' },
-            { key: 'volume', placeholder: 'Volume', type: 'text' },
-            { key: 'weight', placeholder: 'Peso', type: 'text' },
-            { key: 'cubicMeters', placeholder: 'Cubagem', type: 'text' }
-          ].map((field) => (
-            <div key={field.key}>
-              <input
-                type={field.type}
-                placeholder={field.placeholder}
-                value={formData[field.key as keyof typeof formData]}
-                onChange={(e) => setFormData({...formData, [field.key]: e.target.value})}
-                className="w-full p-3 md:p-4 bg-eink-lightGray rounded-lg outline-none text-sm md:text-base"
-              />
-            </div>
-          ))}
-
-          {status && (
-            <div className="text-center text-eink-gray text-sm md:text-base">
-              {status}
-            </div>
-          )}
-
-          <button
-            type="submit"
-            className="w-full p-3 md:p-4 bg-eink-black text-eink-white rounded-lg hover:bg-eink-darkGray transition-colors duration-200 text-sm md:text-base"
+    <div className="min-h-screen flex flex-col justify-between bg-eink-white text-eink-black animate-fadeIn">
+      <div className="flex-grow">
+        <div className="max-w-[85%] mx-auto px-4 py-6 md:py-12">
+          <button 
+            onClick={() => navigate('/')}
+            className="mb-6 md:mb-8 text-eink-gray hover:text-eink-black text-sm"
           >
-            Enviar
+            ← Voltar
           </button>
-        </form>
+
+          <h1 className="text-xl md:text-2xl font-light text-center mb-6">Agendar Coleta</h1>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {[
+              { key: 'whatsapp', placeholder: 'WhatsApp (com DDD)', type: 'tel' },
+              { key: 'name', placeholder: 'Nome do Cliente', type: 'text' },
+              { key: 'city', placeholder: 'Cidade Destino', type: 'text' },
+              { key: 'volume', placeholder: 'Volume', type: 'text' },
+              { key: 'weight', placeholder: 'Peso', type: 'text' },
+              { key: 'cubicMeters', placeholder: 'Cubagem', type: 'text' }
+            ].map((field) => (
+              <div key={field.key}>
+                <input
+                  type={field.type}
+                  placeholder={field.placeholder}
+                  value={formData[field.key as keyof typeof formData]}
+                  onChange={(e) => setFormData({...formData, [field.key]: e.target.value})}
+                  className="w-full p-3 bg-eink-lightGray rounded-lg outline-none text-sm"
+                />
+              </div>
+            ))}
+
+            {status && (
+              <div className="text-center text-eink-gray text-sm">
+                {status}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              className="w-full p-3 bg-eink-black text-eink-white rounded-lg hover:bg-eink-darkGray transition-colors duration-200 text-sm"
+            >
+              Enviar
+            </button>
+          </form>
+        </div>
       </div>
+      
+      <footer className="w-full py-4 text-xs text-eink-gray text-center">
+        © 2025 - desenvolvido por 2103 creative - Desde 2024
+      </footer>
     </div>
   );
 };

@@ -49,63 +49,69 @@ const RequestQuote = () => {
   };
 
   return (
-    <div className="min-h-screen bg-eink-white text-eink-black animate-fadeIn">
-      <div className="max-w-md mx-auto px-4 py-6 md:py-12">
-        <button 
-          onClick={() => navigate('/')}
-          className="mb-6 md:mb-8 text-eink-gray hover:text-eink-black text-sm md:text-base"
-        >
-          ← Voltar
-        </button>
-
-        <h1 className="text-xl md:text-2xl font-light text-center mb-6 md:mb-8">Solicitar Cotação</h1>
-
-        <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
-          <select
-            value={selectedContact}
-            onChange={(e) => setSelectedContact(e.target.value)}
-            className="w-full p-3 md:p-4 bg-eink-lightGray rounded-lg outline-none text-sm md:text-base"
+    <div className="min-h-screen flex flex-col justify-between bg-eink-white text-eink-black animate-fadeIn">
+      <div className="flex-grow">
+        <div className="max-w-[85%] mx-auto px-4 py-6 md:py-12">
+          <button 
+            onClick={() => navigate('/')}
+            className="mb-6 md:mb-8 text-eink-gray hover:text-eink-black text-sm"
           >
-            {Object.keys(CONTACTS).map((contact) => (
-              <option key={contact} value={contact}>
-                {contact}
-              </option>
-            ))}
-          </select>
-
-          <div className="space-y-3 md:space-y-4">
-            {[
-              { key: 'stretchFilm', label: 'FILME STRETCH' },
-              { key: 'bubbleWrap', label: 'PLÁSTICO BOLHA' },
-              { key: 'kraftPaper', label: 'BOBINA PAPEL KRAFT' },
-              { key: 'corrugatedPaper', label: 'BOBINA PAPEL ONDULADO' }
-            ].map((item) => (
-              <label key={item.key} className="flex items-center space-x-3 p-3 md:p-4 bg-eink-lightGray rounded-lg cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={materials[item.key as keyof typeof materials]}
-                  onChange={(e) => setMaterials({...materials, [item.key]: e.target.checked})}
-                  className="form-checkbox h-4 w-4 md:h-5 md:w-5 text-eink-black rounded border-eink-gray"
-                />
-                <span className="text-sm md:text-base">{item.label}</span>
-              </label>
-            ))}
-          </div>
-
-          {status && (
-            <div className="text-center text-eink-gray text-sm md:text-base">
-              {status}
-            </div>
-          )}
-
-          <button
-            type="submit"
-            className="w-full p-3 md:p-4 bg-eink-black text-eink-white rounded-lg hover:bg-eink-darkGray transition-colors duration-200 text-sm md:text-base"
-          >
-            Enviar
+            ← Voltar
           </button>
-        </form>
+
+          <h1 className="text-xl md:text-2xl font-light text-center mb-6">Solicitar Cotação</h1>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <select
+              value={selectedContact}
+              onChange={(e) => setSelectedContact(e.target.value)}
+              className="w-full p-3 bg-eink-lightGray rounded-lg outline-none text-sm"
+            >
+              {Object.keys(CONTACTS).map((contact) => (
+                <option key={contact} value={contact}>
+                  {contact}
+                </option>
+              ))}
+            </select>
+
+            <div className="space-y-3">
+              {[
+                { key: 'stretchFilm', label: 'FILME STRETCH' },
+                { key: 'bubbleWrap', label: 'PLÁSTICO BOLHA' },
+                { key: 'kraftPaper', label: 'BOBINA PAPEL KRAFT' },
+                { key: 'corrugatedPaper', label: 'BOBINA PAPEL ONDULADO' }
+              ].map((item) => (
+                <label key={item.key} className="flex items-center space-x-3 p-3 bg-eink-lightGray rounded-lg cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={materials[item.key as keyof typeof materials]}
+                    onChange={(e) => setMaterials({...materials, [item.key]: e.target.checked})}
+                    className="form-checkbox h-4 w-4 text-eink-black rounded border-eink-gray"
+                  />
+                  <span className="text-sm">{item.label}</span>
+                </label>
+              ))}
+            </div>
+
+            {status && (
+              <div className="text-center text-eink-gray text-sm">
+                {status}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              className="w-full p-3 bg-eink-black text-eink-white rounded-lg hover:bg-eink-darkGray transition-colors duration-200 text-sm"
+            >
+              Enviar
+            </button>
+          </form>
+        </div>
       </div>
+      
+      <footer className="w-full py-4 text-xs text-eink-gray text-center">
+        © 2025 - desenvolvido por 2103 creative - Desde 2024
+      </footer>
     </div>
   );
 };
