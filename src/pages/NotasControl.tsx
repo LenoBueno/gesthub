@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from "../hooks/useLocalStorage";
@@ -99,7 +98,7 @@ const NotasControl = () => {
 
               <button
                 onClick={() => window.print()}
-                className="w-full sm:w-auto self-end flex items-center justify-center gap-2 px-3 py-2 border border-eink-lightGray rounded-lg hover:bg-eink-lightGray/10 text-xs md:text-sm"
+                className="w-full sm:w-auto self-end flex items-center justify-center gap-2 px-3 py-1 border border-eink-lightGray rounded-lg hover:bg-eink-lightGray/10 text-xs md:text-sm md:px-4 md:py-2"
               >
                 <Download className="w-3 h-3 md:w-4 md:h-4" />
                 Exportar
