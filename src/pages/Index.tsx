@@ -12,30 +12,30 @@ const MainMenu = () => {
           <div className="space-y-3">
             <Link 
               to="/client-pickup"
-              className="block w-full p-2.5 md:p-6 bg-eink-lightGray hover:bg-eink-gray transition-colors duration-200 rounded-lg shadow-sm"
+              className="block w-full p-2.5 md:p-4 bg-eink-lightGray hover:bg-eink-gray transition-colors duration-200 rounded-lg shadow-sm"
             >
-              <span className="text-sm md:text-base font-medium uppercase">Cliente Retira</span>
+              <span className="text-xs md:text-base font-medium uppercase">Cliente Retira</span>
             </Link>
 
             <Link 
               to="/schedule-collection"
-              className="block w-full p-2.5 md:p-6 bg-eink-lightGray hover:bg-eink-gray transition-colors duration-200 rounded-lg shadow-sm"
+              className="block w-full p-2.5 md:p-4 bg-eink-lightGray hover:bg-eink-gray transition-colors duration-200 rounded-lg shadow-sm"
             >
-              <span className="text-sm md:text-base font-medium uppercase">Agendar Coleta</span>
+              <span className="text-xs md:text-base font-medium uppercase">Agendar Coleta</span>
             </Link>
 
             <Link 
               to="/request-quote"
-              className="block w-full p-2.5 md:p-6 bg-eink-lightGray hover:bg-eink-gray transition-colors duration-200 rounded-lg shadow-sm"
+              className="block w-full p-2.5 md:p-4 bg-eink-lightGray hover:bg-eink-gray transition-colors duration-200 rounded-lg shadow-sm"
             >
-              <span className="text-sm md:text-base font-medium uppercase">Cotação</span>
+              <span className="text-xs md:text-base font-medium uppercase">Cotação</span>
             </Link>
 
             <Link 
               to="/notas-control"
-              className="block w-full p-2.5 md:p-6 bg-eink-lightGray hover:bg-eink-gray transition-colors duration-200 rounded-lg shadow-sm"
+              className="block w-full p-2.5 md:p-4 bg-eink-lightGray hover:bg-eink-gray transition-colors duration-200 rounded-lg shadow-sm"
             >
-              <span className="text-sm md:text-base font-medium uppercase">Controle Notas</span>
+              <span className="text-xs md:text-base font-medium uppercase">Controle Notas</span>
             </Link>
           </div>
         </div>
