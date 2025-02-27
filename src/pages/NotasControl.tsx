@@ -75,18 +75,18 @@ const NotasControl = () => {
 
   return (
     <div className="min-h-screen bg-eink-white text-eink-black animate-fadeIn">
-      <div className="max-w-6xl mx-auto px-4 py-12">
+      <div className="w-full max-w-6xl mx-auto px-4 py-6 md:py-12">
         <button 
           onClick={() => navigate('/')}
-          className="mb-8 text-eink-gray hover:text-eink-black uppercase"
+          className="mb-6 md:mb-8 text-eink-gray hover:text-eink-black uppercase text-sm md:text-base"
         >
           ← VOLTAR
         </button>
 
-        <div className="flex flex-col md:flex-row justify-between items-center mb-8">
-          <h1 className="text-2xl font-light uppercase mb-4 md:mb-0">Controle de Notas</h1>
+        <div className="flex flex-col gap-4 mb-6 md:mb-8">
+          <h1 className="text-xl md:text-2xl font-light uppercase">Controle de Notas</h1>
           
-          <div className="flex flex-wrap gap-4 items-center">
+          <div className="flex flex-col w-full gap-4">
             <NotasFilters
               busca={busca}
               setBusca={setBusca}
@@ -98,7 +98,7 @@ const NotasControl = () => {
 
             <button
               onClick={() => window.print()}
-              className="flex items-center gap-2 px-4 py-2 border border-eink-lightGray rounded-lg hover:bg-eink-lightGray/10"
+              className="w-full sm:w-auto self-end flex items-center justify-center gap-2 px-4 py-2 border border-eink-lightGray rounded-lg hover:bg-eink-lightGray/10"
             >
               <Download className="w-4 h-4" />
               Exportar
@@ -106,7 +106,7 @@ const NotasControl = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {filtrarNotas().map((nota, index) => (
             <NotaFiscalCard
               key={index}
@@ -119,7 +119,7 @@ const NotasControl = () => {
         </div>
 
         {filtrarNotas().length === 0 && (
-          <div className="text-center text-eink-gray uppercase mt-8">
+          <div className="text-center text-eink-gray uppercase mt-6 md:mt-8 text-sm md:text-base">
             Nenhuma nota encontrada
           </div>
         )}

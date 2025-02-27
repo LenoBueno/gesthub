@@ -41,17 +41,17 @@ const ScheduleCollection = () => {
 
   return (
     <div className="min-h-screen bg-eink-white text-eink-black animate-fadeIn">
-      <div className="max-w-md mx-auto px-4 py-12">
+      <div className="max-w-md mx-auto px-4 py-6 md:py-12">
         <button 
           onClick={() => navigate('/')}
-          className="mb-8 text-eink-gray hover:text-eink-black"
+          className="mb-6 md:mb-8 text-eink-gray hover:text-eink-black text-sm md:text-base"
         >
           ← Voltar
         </button>
 
-        <h1 className="text-2xl font-light text-center mb-8">Agendar Coleta</h1>
+        <h1 className="text-xl md:text-2xl font-light text-center mb-6 md:mb-8">Agendar Coleta</h1>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
           {[
             { key: 'whatsapp', placeholder: 'WhatsApp (com DDD)', type: 'tel' },
             { key: 'name', placeholder: 'Nome do Cliente', type: 'text' },
@@ -66,20 +66,20 @@ const ScheduleCollection = () => {
                 placeholder={field.placeholder}
                 value={formData[field.key as keyof typeof formData]}
                 onChange={(e) => setFormData({...formData, [field.key]: e.target.value})}
-                className="w-full p-4 bg-eink-lightGray rounded-lg outline-none"
+                className="w-full p-3 md:p-4 bg-eink-lightGray rounded-lg outline-none text-sm md:text-base"
               />
             </div>
           ))}
 
           {status && (
-            <div className="text-center text-eink-gray">
+            <div className="text-center text-eink-gray text-sm md:text-base">
               {status}
             </div>
           )}
 
           <button
             type="submit"
-            className="w-full p-4 bg-eink-black text-eink-white rounded-lg hover:bg-eink-darkGray transition-colors duration-200"
+            className="w-full p-3 md:p-4 bg-eink-black text-eink-white rounded-lg hover:bg-eink-darkGray transition-colors duration-200 text-sm md:text-base"
           >
             Enviar
           </button>

@@ -5,36 +5,36 @@ import { Link } from 'react-router-dom';
 const MainMenu = () => {
   return (
     <div className="min-h-screen bg-eink-white text-eink-black animate-fadeIn">
-      <div className="max-w-md mx-auto px-4 py-12">
-        <h1 className="text-2xl font-light text-center mb-12 uppercase">GestHub</h1>
+      <div className="max-w-md mx-auto px-4 py-8 md:py-12">
+        <h1 className="text-xl md:text-2xl font-light text-center mb-8 md:mb-12 uppercase">GestHub</h1>
         
-        <div className="space-y-6">
+        <div className="space-y-4 md:space-y-6">
           <Link 
             to="/client-pickup"
-            className="block w-full p-6 bg-eink-lightGray hover:bg-eink-gray transition-colors duration-200 rounded-lg shadow-sm"
+            className="block w-full p-4 md:p-6 bg-eink-lightGray hover:bg-eink-gray transition-colors duration-200 rounded-lg shadow-sm"
           >
-            <span className="text-lg font-medium uppercase">Cliente Retira</span>
+            <span className="text-base md:text-lg font-medium uppercase">Cliente Retira</span>
           </Link>
 
           <Link 
             to="/schedule-collection"
-            className="block w-full p-6 bg-eink-lightGray hover:bg-eink-gray transition-colors duration-200 rounded-lg shadow-sm"
+            className="block w-full p-4 md:p-6 bg-eink-lightGray hover:bg-eink-gray transition-colors duration-200 rounded-lg shadow-sm"
           >
-            <span className="text-lg font-medium uppercase">Agendar Coleta</span>
+            <span className="text-base md:text-lg font-medium uppercase">Agendar Coleta</span>
           </Link>
 
           <Link 
             to="/request-quote"
-            className="block w-full p-6 bg-eink-lightGray hover:bg-eink-gray transition-colors duration-200 rounded-lg shadow-sm"
+            className="block w-full p-4 md:p-6 bg-eink-lightGray hover:bg-eink-gray transition-colors duration-200 rounded-lg shadow-sm"
           >
-            <span className="text-lg font-medium uppercase">Cotação</span>
+            <span className="text-base md:text-lg font-medium uppercase">Cotação</span>
           </Link>
 
           <Link 
             to="/notas-control"
-            className="block w-full p-6 bg-eink-lightGray hover:bg-eink-gray transition-colors duration-200 rounded-lg shadow-sm"
+            className="block w-full p-4 md:p-6 bg-eink-lightGray hover:bg-eink-gray transition-colors duration-200 rounded-lg shadow-sm"
           >
-            <span className="text-lg font-medium uppercase">Controle Notas</span>
+            <span className="text-base md:text-lg font-medium uppercase">Controle Notas</span>
           </Link>
         </div>
       </div>
