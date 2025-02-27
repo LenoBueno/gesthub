@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Search, Calendar } from 'lucide-react';
 
@@ -46,7 +45,7 @@ export const NotasFilters: React.FC<NotasFiltersProps> = ({
 
       <button
         onClick={() => setOrdenacao(ordenacao === 'asc' ? 'desc' : 'asc')}
-        className="w-full sm:w-auto flex items-center justify-center gap-2 px-3 py-2 text-xs md:text-sm border border-eink-lightGray rounded-lg hover:bg-eink-lightGray/10"
+        className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 text-xs md:text-sm md:px-6 md:py-3 border border-eink-lightGray rounded-lg hover:bg-eink-lightGray/10"
       >
         <Calendar className="w-3 h-3 md:w-4 md:h-4" />
         {ordenacao === 'asc' ? 'Mais antigos' : 'Mais recentes'}
